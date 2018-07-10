@@ -1,5 +1,6 @@
 package org.thewolfbadger.badgerwebchat.api;
 
+import org.bukkit.Bukkit;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
@@ -35,7 +36,8 @@ public class ServerUnit extends WebSocketServer {
 
     @Override
     public void onMessage(WebSocket conn, String message) {
-        System.out.println("<Socket-Server> " + message);
+        System.out.println("<Socket-Server> " + conn.getRemoteSocketAddress().getAddress().toString() + ">" + message);
+        Bukkit.getServer().broadcastMessage("<Socket-Server> " + conn.getRemoteSocketAddress().getAddress().toString() + ">" + message);
         for (WebSocket sock : conns) {
             sock.send(message);
         }
